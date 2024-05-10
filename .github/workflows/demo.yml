@@ -19,6 +19,8 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      my-files: ${{ steps.publish_id.outputs.some-files }}
     steps:
       - name: Get code
         uses: actions/checkout@v3
@@ -26,6 +28,9 @@ jobs:
         run: npm ci
       - name: Build website
         run: npm run build
+      - name: Publisg JS files
+        id: publish_id
+      - run: find dist/assets/*.js -type f -execdir echo 'some-files={}' >> $GITHUB_OUTPUT ';'
       - name: Upload artifacts
       # https://github.com/actions/upload-artifact
         uses: actions/upload-artifact@v4
@@ -45,5 +50,7 @@ jobs:
           name: dist-files
       - name: output content
         run: ls -l
+      - name: Output files name
+        run: echo "${{ needs.build.outputs.my-files }}"
       - name: Deploy
         run: echo "Deploying..."
