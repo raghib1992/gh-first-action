@@ -5,10 +5,12 @@ jobs:
   first-job:
     runs-on: ubuntu-latest
     steps:
+        # Single line command
       - name: Print greeitng
         run: echo "Hello World"
       - name: Print goodbye
         run: echo "Good Bye"
+        # multi line command
       - name: multi line step
         run: |
           echo "First line"
